@@ -692,25 +692,35 @@ for (let i = 0; i < new_users.length; i++) {
 }
 
 // Task (33)
-// Ordinal Numbers: Ordinal numbers indicate their position in a array, such as 1st or 2nd. Most ordinal numbers end in th, except 1, 2, and 3.
+//  Ordinal Numbers: Ordinal numbers indicate their position in a array, such as 1st or 2nd.
+  // Most ordinal numbers end in th, except 1, 2, and 3.
 // • Store the numbers 1 through 9 in a array.
 // • Loop through the array.
-// • Use an if-else chain inside the loop to print the proper ordinal ending for each number. Your output should read "1st 2nd 3rd 4th 5th 6th 7th 8th 9th", and each result should be on a separate line.
+// • Use an if-else chain inside the loop to print the proper
+//  ordinal ending for each number.
+//  Your output should read "1st 2nd 3rd 4th 5th 6th 7th 8th 9th", and each result should be on a separate line.
 
-let numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const numbers: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-const ordinalSuffixes = {
-  1: "st",
-  2: "nd",
-  3: "rd",
-  default: "th", // Default suffix for other numbers
-};
+for (const number of numbers) {
+  let suffix: string;
+  const lastDigit = number % 10; // Get the last digit of the number
 
-for (let i = 0; i < numbers.length; i++) {
-  let number = numbers[i];
-  let suffix = ordinalSuffixes[number] || ordinalSuffixes.default; // Use default for non-special cases
+  if (lastDigit === 1 && number !== 11) {
+    suffix = "st";
+  } else if (lastDigit === 2 && number !== 12) {
+    suffix = "nd";
+  } else if (lastDigit === 3 && number !== 13) {
+    suffix = "rd";
+  } else {
+    suffix = "th";
+  }
+
   console.log(`${number}${suffix}`);
 }
+
+
+
 
 // Task (34)
 // Pizzas: Think of at least three kinds of your favorite pizza. Store these pizza names in a array, and then use a for loop to print the name of each pizza.
@@ -788,27 +798,39 @@ console.log(city_country("London", "England"));
 console.log(city_country("Toronto", "Canada"));
 
 // Task (40)
-// Album: Write a function called make_album() that builds a Object describing a music album. The function should take in an artist name and an album title, and it should return a Object containing these two pieces of information. Use the function to make three dictionaries representing different albums. Print each return value to show that Objects are storing the album information correctly. Add an optional parameter to make_album() that allows you to store the number of tracks on an album. If the calling line includes a value for the number of tracks, add that value to the album’s Object. Make at least one new function call that includes the number of tracks on an album.
+// Album: Write a function called make_album() that builds a Object describing a music album. 
+// The function should take in an artist name and an album title, and it should return a Object containing these two pieces
+//  of information. Use the function to make three dictionaries representing different albums. Print each return value 
+//  to show that Objects are storing the album information correctly. Add an optional parameter to make_album() that allows
+//   you to store the number of tracks on an album. If the calling line includes a value for the number of tracks, add that
+//    value to the album’s Object. Make at least one new function call that includes the number of tracks on an album.
 
-function make_album(artist: string, title: string, tracks?: number): object {
-  // Create an empty object to store album information
-  const album: object = {};
-  album["artist"] = artist;
-  album["title"] = title;
-  if (tracks !== undefined) {
-    album["tracks"] = tracks;
-  }
-  return album;
+type Album = {
+  artist: string;
+  title: string;
+  tracks?: number; // Optional property for number of tracks
+};
+
+function make_album(artist: string, title: string, tracks?: number): Album {
+  return {
+    artist,
+    title,
+    tracks, // Add tracks if provided
+  };
 }
-// Create three albums using the function
-let album1 = make_album("Pink Floyd", "The Dark Side of the Moon");
-let album2 = make_album("Daft Punk", "Random Access Memories");
-let album3 = make_album("The Beatles", "Abbey Road", 39); // Specify number of tracks
 
-// Print the album information for each object
+// Create three albums
+const album1 = make_album("Daft Punk", "Random Access Memories");
+const album2 = make_album("The Beatles", "Abbey Road");
+const album3 = make_album("Pink Floyd", "The Dark Side of the Moon", 9);
+
+// Print album information
 console.log(album1);
 console.log(album2);
 console.log(album3);
+
+
+
 
 // Task (41)
 // Magicians: Make a array of magician’s names. Pass the array to a function
@@ -925,27 +947,42 @@ buildSandwichSummary("turkey", "lettuce", "tomato"); // Three arguments
 // Task (45)
 // Cars: Write a function that stores information about a car in a Object. The function should always receive a
 //  manufacturer and a model name. It should then accept an arbitrary number of keyword arguments. Call the function
- // with the required information and two other name-value pairs, such as a color or an optional feature.
- //  Print the Object that’s returned to make sure all the information was stored correctly.
+//  with the required information and two other name-value pairs, such as a color or an optional feature.
+//   Print the Object that’s returned to make sure all the information was stored correctly.
 
- function createCarInfo(manufacturer: string, model: string, ...otherInfo) {
-  // Create the base car information object
-  const carInfo = {
+type CarInfo = {
+  manufacturer: string;
+  model: string;
+  [key: string]: string | number; // Allow any additional key-value pairs
+};
+
+function createCar(manufacturer: string, model: string, ...rest: [string, string | number][]): CarInfo {
+  const car: CarInfo = {
     manufacturer,
     model,
-    ...otherInfo,
   };
 
-  return carInfo;
+  // Check for optional properties using object destructuring
+  for (const [key, value] of rest) {
+    car[key] = value;
+  }
+
+  return car;
 }
 
-// Call createCarInfo with required information and keyword arguments
-const car1 = createCarInfo("Toyota", "Camry", { color: "red", sunroof: true });
-const car2 = createCarInfo("Honda", "Civic", { year: 2023 });
+// Create a car object with optional properties
+const myCar = createCar(
+  "Tesla",
+  "Model S",
+);
 
-// Print the created car information objects
-console.log(car1);
-console.log(car2);
+// Print car information
+console.log(myCar);
+
+
+
+
+
 
 
   

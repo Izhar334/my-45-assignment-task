@@ -1,16 +1,5 @@
 //Task (01)
 // Install Node.js, TypeScript and VS Code on your computer.
-var __assign = (this && this.__assign) || function () {
-    __assign = Object.assign || function(t) {
-        for (var s, i = 1, n = arguments.length; i < n; i++) {
-            s = arguments[i];
-            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
-                t[p] = s[p];
-        }
-        return t;
-    };
-    return __assign.apply(this, arguments);
-};
 var __spreadArray = (this && this.__spreadArray) || function (to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -593,20 +582,30 @@ for (var i = 0; i < new_users.length; i++) {
     }
 }
 // Task (33)
-// Ordinal Numbers: Ordinal numbers indicate their position in a array, such as 1st or 2nd. Most ordinal numbers end in th, except 1, 2, and 3.
+//  Ordinal Numbers: Ordinal numbers indicate their position in a array, such as 1st or 2nd.
+// Most ordinal numbers end in th, except 1, 2, and 3.
 // • Store the numbers 1 through 9 in a array.
 // • Loop through the array.
-// • Use an if-else chain inside the loop to print the proper ordinal ending for each number. Your output should read "1st 2nd 3rd 4th 5th 6th 7th 8th 9th", and each result should be on a separate line.
+// • Use an if-else chain inside the loop to print the proper
+//  ordinal ending for each number.
+//  Your output should read "1st 2nd 3rd 4th 5th 6th 7th 8th 9th", and each result should be on a separate line.
 var numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-var ordinalSuffixes = {
-    1: "st",
-    2: "nd",
-    3: "rd",
-    default: "th", // Default suffix for other numbers
-};
-for (var i = 0; i < numbers.length; i++) {
-    var number = numbers[i];
-    var suffix = ordinalSuffixes[number] || ordinalSuffixes.default; // Use default for non-special cases
+for (var _i = 0, numbers_1 = numbers; _i < numbers_1.length; _i++) {
+    var number = numbers_1[_i];
+    var suffix = void 0;
+    var lastDigit = number % 10; // Get the last digit of the number
+    if (lastDigit === 1 && number !== 11) {
+        suffix = "st";
+    }
+    else if (lastDigit === 2 && number !== 12) {
+        suffix = "nd";
+    }
+    else if (lastDigit === 3 && number !== 13) {
+        suffix = "rd";
+    }
+    else {
+        suffix = "th";
+    }
     console.log("".concat(number).concat(suffix));
 }
 // Task (34)
@@ -667,23 +666,18 @@ function city_country(city, country) {
 console.log(city_country("Tokyo", "Japan"));
 console.log(city_country("London", "England"));
 console.log(city_country("Toronto", "Canada"));
-// Task (40)
-// Album: Write a function called make_album() that builds a Object describing a music album. The function should take in an artist name and an album title, and it should return a Object containing these two pieces of information. Use the function to make three dictionaries representing different albums. Print each return value to show that Objects are storing the album information correctly. Add an optional parameter to make_album() that allows you to store the number of tracks on an album. If the calling line includes a value for the number of tracks, add that value to the album’s Object. Make at least one new function call that includes the number of tracks on an album.
 function make_album(artist, title, tracks) {
-    // Create an empty object to store album information
-    var album = {};
-    album["artist"] = artist;
-    album["title"] = title;
-    if (tracks !== undefined) {
-        album["tracks"] = tracks;
-    }
-    return album;
+    return {
+        artist: artist,
+        title: title,
+        tracks: tracks,
+    };
 }
-// Create three albums using the function
-var album1 = make_album("Pink Floyd", "The Dark Side of the Moon");
-var album2 = make_album("Daft Punk", "Random Access Memories");
-var album3 = make_album("The Beatles", "Abbey Road", 39); // Specify number of tracks
-// Print the album information for each object
+// Create three albums
+var album1 = make_album("Daft Punk", "Random Access Memories");
+var album2 = make_album("The Beatles", "Abbey Road");
+var album3 = make_album("Pink Floyd", "The Dark Side of the Moon", 9);
+// Print album information
 console.log(album1);
 console.log(album2);
 console.log(album3);
@@ -781,23 +775,23 @@ function buildSandwichSummary() {
 buildSandwichSummary(); // No arguments
 buildSandwichSummary("bread", "cheese"); // Two arguments
 buildSandwichSummary("turkey", "lettuce", "tomato"); // Three arguments
-// Task (45)
-// Cars: Write a function that stores information about a car in a Object. The function should always receive a
-//  manufacturer and a model name. It should then accept an arbitrary number of keyword arguments. Call the function
-// with the required information and two other name-value pairs, such as a color or an optional feature.
-//  Print the Object that’s returned to make sure all the information was stored correctly.
-function createCarInfo(manufacturer, model) {
-    var otherInfo = [];
+function createCar(manufacturer, model) {
+    var rest = [];
     for (var _i = 2; _i < arguments.length; _i++) {
-        otherInfo[_i - 2] = arguments[_i];
+        rest[_i - 2] = arguments[_i];
     }
-    // Create the base car information object
-    var carInfo = __assign({ manufacturer: manufacturer, model: model }, otherInfo);
-    return carInfo;
+    var car = {
+        manufacturer: manufacturer,
+        model: model,
+    };
+    // Check for optional properties using object destructuring
+    for (var _a = 0, rest_1 = rest; _a < rest_1.length; _a++) {
+        var _b = rest_1[_a], key = _b[0], value = _b[1];
+        car[key] = value;
+    }
+    return car;
 }
-// Call createCarInfo with required information and keyword arguments
-var car1 = createCarInfo("Toyota", "Camry", { color: "red", sunroof: true });
-var car2 = createCarInfo("Honda", "Civic", { year: 2023 });
-// Print the created car information objects
-console.log(car1);
-console.log(car2);
+// Create a car object with optional properties
+var myCar = createCar("Tesla", "Model S");
+// Print car information
+console.log(myCar);
